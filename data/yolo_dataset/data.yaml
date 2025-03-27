@@ -1,0 +1,12 @@
+# YOLOv8 dataset configuration for invoice information extraction
+
+path: C:/Aditya/Projects/invoice-extraction/data/yolo_dataset
+train: images/train
+val: images/val
+test: images/test
+
+# Number of classes (invoice field types)
+nc: 14
+
+# Class names
+names: ['BA', 'BAID', 'INV', 'INV_DATE', 'INV_DATE_ID', 'INV_ID', 'ORD_DATE', 'ORD_DATE_ID', 'SA', 'SAID', 'SLR', 'SLR_ID', 'TOTAL', 'TOTAL_ID']
