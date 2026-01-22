@@ -112,9 +112,13 @@ CRITICAL RULES:
 - For numbers: read carefully, handle Indian formats (lakhs), don't miss digits
 - For signature/stamp: be EXTREMELY generous - if ANY mark exists, mark present=true
 - Bounding boxes: provide REALISTIC coordinates based on actual position in image (e.g., [x, y, width, height] where signature/stamp appears)
+  - NEVER use [0, 0, 0, 0] - this is invalid
   - Look at actual image dimensions and estimate where signature/stamp is located
-  - Example: if image is 1200x1600 and signature is bottom-right: [950, 1400, 200, 100]
-  - If you cannot determine exact location but mark is present: estimate based on typical invoice layout
+  - Typical invoice image size: 1200x1600 pixels
+  - Signature usually bottom-right: estimate [850, 1400, 250, 120]
+  - Stamp usually bottom-left or near signature: estimate [150, 1450, 200, 150]
+  - If you cannot determine exact location but mark is present: use these typical estimates
+  - Better to estimate than return [0,0,0,0] or null
 - Return null ONLY if field absolutely does not exist (except signature/stamp - be generous)
 - Return pure JSON only - no explanations, no markdown"""
     

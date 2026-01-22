@@ -12,10 +12,12 @@ A production-grade AI pipeline combining **Computer Vision**, **OCR**, and **Vis
 - [Architecture](#architecture)
 - [Pipeline](#pipeline)
 - [Cost Analysis](#cost-analysis)
+- [Model Setup](#model-setup)
 - [Setup & Installation](#setup--installation)
 - [Usage](#usage)
 - [Output Schema](#output-schema)
 - [Performance Metrics](#performance-metrics)
+- [Bonus Features](#bonus-features)
 
 ---
 
@@ -270,16 +272,103 @@ Breakdown Optimization:
 
 ---
 
+## 🧰 Model Setup
+
+**IMPORTANT:** This submission includes the llama3.2-vision model (~7.8 GB) for offline evaluation.
+
+### For Judges/Evaluators
+
+**Step 1: Restore the Vision Model**
+
+```bash
+# Windows
+restore_model.bat
+
+# Linux/Mac
+bash restore_model.sh
+```
+
+This will:
+
+- Extract the llama3.2-vision model to the correct Ollama directory
+- Verify the model is available
+- Make it ready for the extraction system
+
+**Step 2: Start Ollama Server**
+
+```bash
+# The restore script starts Ollama automatically
+# Or start manually:
+ollama serve
+
+# Verify model is loaded:
+ollama list
+# Should show: llama3.2-vision:latest
+```
+
+### Model Details
+
+| Property           | Value                     |
+| ------------------ | ------------------------- |
+| **Model Name**     | llama3.2-vision           |
+| **Size**           | 7.8 GB (10.7B parameters) |
+| **Quantization**   | Q4_K_M                    |
+| **Context Length** | 131,072 tokens            |
+| **Capabilities**   | Vision + Text completion  |
+| **Location**       | Included in submission    |
+
+### Alternative Setup (If Model Not Included)
+
+If the model file is missing or you prefer to download fresh:
+
+```bash
+# Download model from Ollama (~4GB download, ~7.8GB on disk)
+ollama pull llama3.2-vision
+```
+
+**Note:** The included model eliminates the need for internet connection during evaluation.
+
+---
+
 ## 🚀 Setup & Installation
 
 ### Prerequisites
 
 - **Python**: 3.8, 3.9, 3.10, or 3.11
-- **Ollama**: For llama3.2-vision model hosting
+- **Ollama**: Installed ([https://ollama.ai](https://ollama.ai)) - can be installed via setup scripts
+- **llama3.2-vision model**: ✅ **INCLUDED in submission** (~7.8 GB) - use `restore_model.bat/sh` to install
 - **System RAM**: Minimum 8GB (16GB recommended)
-- **Storage**: 6GB free space (model + dependencies)
+- **Storage**: 10GB free space (model + dependencies)
 
-### Option 1: Quick Setup (Recommended)
+### Quick Start (For Judges/Evaluators)
+
+**Step 1: Restore the Included Model**
+
+```bash
+# Windows
+restore_model.bat
+
+# Linux/Mac
+bash restore_model.sh
+```
+
+This extracts the included llama3.2-vision model to your system's Ollama directory.
+
+**Step 2: Install Python Dependencies**
+
+```bash
+pip install -r requirements.txt
+```
+
+**Step 3: Run Extraction**
+
+```bash
+python executable.py path/to/invoice.png
+```
+
+### Alternative Setup (Download Model Fresh)
+
+If you prefer to download the model instead of using the included version:
 
 **Step 1: Run Setup Script**
 
@@ -293,9 +382,10 @@ setup.bat
 
 The setup script will:
 
-- ✓ Verify Ollama installation
+- ✓ Verify/Install Ollama
 - ✓ Start Ollama server
-- ✓ Download llama3.2-vision model (~4GB, one-time)
+- ✓ Download llama3.2-vision model (~4GB download, ~7.8GB on disk)
+- ⚠️ **Note:** This requires internet connection
 
 **Step 2: Install Python Dependencies**
 
@@ -306,11 +396,15 @@ pip install -r requirements.txt
 **Step 3: Verify Installation**
 
 ```bash
-# Test with sample invoice (if available)
-python executable.py path/to/test_invoice.png
+# Check model is available
+ollama list
+# Should show: llama3.2-vision:latest
+
+# Test with sample invoice
+python executable.py data/sample_invoices/172863544_2_pg20.png
 ```
 
-### Option 2: Manual Setup
+### Manual Setup
 
 **Step 1: Install Ollama**
 
@@ -613,12 +707,42 @@ streamlit run app.py
 
 For issues, questions, or contributions:
 
+- **Model Setup**: Run `restore_model.bat` (Windows) or `restore_model.sh` (Linux) to install the included llama3.2-vision model (~7.8 GB)
+- **Quick Start**: The model is INCLUDED in submission - no internet needed for setup
 - **Documentation**: See `sample_output/README.md` for output examples
-- **Setup Issues**: Review setup scripts in `setup.sh` / `setup.bat`
+- **Setup Issues**: See JUDGES_GUIDE.md for step-by-step evaluation instructions
 - **Code Structure**: Check `utils/` directory for modular components
-- **Analytics**: Open `IntelliExtract_EDA_Analysis.ipynb` for comprehensive EDA
+- **Analytics**: Open `IntelliExtract_EDA_Analysis.ipynb` or view `IntelliExtract_EDA_Analysis.html` for comprehensive EDA
 - **Error Analysis**: Run `python error_analysis.py` for failure reports
 - **Web Demo**: Run `streamlit run app.py` for interactive interface
+
+### Submission Contents
+
+```
+submission/
+├── executable.py                          # Main extraction script
+├── requirements.txt                       # Python dependencies
+├── README.md                              # This file
+├── restore_model.bat                      # Model setup script
+├── blobs/                                 # Model binary files (7.8 GB)
+├── manifests/                             # Model metadata
+├── app.py                                 # Streamlit web demo
+├── error_analysis.py                      # Error categorization
+├── IntelliExtract_EDA_Analysis.ipynb      # EDA notebook
+├── IntelliExtract_EDA_Analysis.html       # EDA exported
+├── utils/                                 # Core utilities
+│   ├── extractor.py                       # Vision LLM
+│   ├── ocr.py                             # OCR engines
+│   ├── detector.py                        # YOLO detection
+│   ├── preprocess.py                      # Image preprocessing
+│   ├── validators.py                      # Field validation
+│   ├── confidence.py                      # Confidence scoring
+│   └── ...
+├── sample_output/                         # Example outputs
+│   ├── result.json                        # Sample extraction
+│   └── README.md
+└── yolov8n.pt                             # YOLO weights
+```
 
 ---
 

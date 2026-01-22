@@ -45,6 +45,15 @@ st.markdown("""
         border-radius: 10px;
         border-left: 5px solid #3498db;
         margin: 1rem 0;
+        color: #000000;
+    }
+    .metric-card h3 {
+        color: #000000 !important;
+        margin: 0.5rem 0;
+    }
+    .metric-card h4 {
+        color: #2c3e50 !important;
+        margin: 0;
     }
     .success-box {
         background-color: #d4edda;
@@ -52,6 +61,10 @@ st.markdown("""
         border-radius: 5px;
         border-left: 4px solid #28a745;
         margin: 1rem 0;
+        color: #000000;
+    }
+    .success-box h4, .success-box p {
+        color: #000000 !important;
     }
     .warning-box {
         background-color: #fff3cd;
@@ -59,6 +72,28 @@ st.markdown("""
         border-radius: 5px;
         border-left: 4px solid #ffc107;
         margin: 1rem 0;
+        color: #000000;
+    }
+    .warning-box h4, .warning-box p {
+        color: #000000 !important;
+    }
+    /* Fix JSON display text color */
+    .stJson {
+        background-color: #f8f9fa !important;
+        color: #2c3e50 !important;
+    }
+    .stJson code {
+        color: #2c3e50 !important;
+    }
+    pre {
+        background-color: #f8f9fa !important;
+        color: #2c3e50 !important;
+        padding: 1rem !important;
+        border-radius: 5px !important;
+    }
+    code {
+        color: #c7254e !important;
+        background-color: #f9f2f4 !important;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -225,21 +260,23 @@ def display_results(result):
     col1, col2, col3 = st.columns(3)
     
     with col1:
-        conf_color = "🟢" if confidence >= 0.9 else "🟡" if confidence >= 0.8 else "🔴"
-        st.metric("Confidence Score", f"{conf_color} {confidence:.1%}")
+        conf_label = "High" if confidence >= 0.9 else "Medium" if confidence >= 0.8 else "Low"
+        st.metric("Confidence Score", f"{confidence:.1%}", conf_label)
     
     with col2:
-        time_color = "🟢" if processing_time < 30 else "🔴"
-        st.metric("Processing Time", f"{time_color} {processing_time:.1f}s")
+        time_label = "Fast" if processing_time < 30 else "Slow"
+        st.metric("Processing Time", f"{processing_time:.1f}s", time_label)
     
     with col3:
         field_count = sum([
             bool(fields.get('dealer_name')),
             bool(fields.get('model_name')),
             bool(fields.get('horse_power')),
-            bool(fields.get('asset_cost'))
+            bool(fields.get('asset_cost')),
+            bool(fields.get('signature', {}).get('present')),
+            bool(fields.get('stamp', {}).get('present'))
         ])
-        st.metric("Fields Extracted", f"{field_count}/4")
+        st.metric("Fields Extracted", f"{field_count}/6")
     
     # Field details
     st.markdown("### Extracted Fields")
@@ -251,7 +288,7 @@ def display_results(result):
         dealer = fields.get('dealer_name', 'N/A')
         st.markdown(f"""
         <div class="metric-card">
-            <h4>🏢 Dealer Name</h4>
+            <h4>Dealer Name</h4>
             <h3>{dealer}</h3>
         </div>
         """, unsafe_allow_html=True)
@@ -260,7 +297,7 @@ def display_results(result):
         model = fields.get('model_name', 'N/A')
         st.markdown(f"""
         <div class="metric-card">
-            <h4>🚜 Model Name</h4>
+            <h4>Model Name</h4>
             <h3>{model}</h3>
         </div>
         """, unsafe_allow_html=True)
@@ -270,7 +307,7 @@ def display_results(result):
         hp = fields.get('horse_power', 'N/A')
         st.markdown(f"""
         <div class="metric-card">
-            <h4>⚡ Horse Power</h4>
+            <h4>Horse Power</h4>
             <h3>{hp} HP</h3>
         </div>
         """, unsafe_allow_html=True)
@@ -283,7 +320,7 @@ def display_results(result):
             cost_formatted = str(cost)
         st.markdown(f"""
         <div class="metric-card">
-            <h4>💰 Asset Cost</h4>
+            <h4>Asset Cost</h4>
             <h3>{cost_formatted}</h3>
         </div>
         """, unsafe_allow_html=True)
@@ -295,10 +332,10 @@ def display_results(result):
     with col1:
         sig_present = fields.get('signature', {}).get('present', False)
         sig_bbox = fields.get('signature', {}).get('bbox', [])
-        sig_status = "✅ Detected" if sig_present else "❌ Not Found"
+        sig_status = "Detected" if sig_present else "Not Found"
         st.markdown(f"""
         <div class="{'success-box' if sig_present else 'warning-box'}">
-            <h4>✍️ Signature</h4>
+            <h4>Signature</h4>
             <p><strong>Status:</strong> {sig_status}</p>
             <p><strong>Bounding Box:</strong> {sig_bbox}</p>
         </div>
@@ -307,10 +344,10 @@ def display_results(result):
     with col2:
         stamp_present = fields.get('stamp', {}).get('present', False)
         stamp_bbox = fields.get('stamp', {}).get('bbox', [])
-        stamp_status = "✅ Detected" if stamp_present else "❌ Not Found"
+        stamp_status = "Detected" if stamp_present else "Not Found"
         st.markdown(f"""
         <div class="{'success-box' if stamp_present else 'warning-box'}">
-            <h4>📌 Stamp</h4>
+            <h4>Stamp</h4>
             <p><strong>Status:</strong> {stamp_status}</p>
             <p><strong>Bounding Box:</strong> {stamp_bbox}</p>
         </div>
@@ -318,15 +355,16 @@ def display_results(result):
     
     # JSON output
     st.markdown("### 📄 JSON Output")
-    st.json(result)
+    json_str = json.dumps(result, indent=2, ensure_ascii=False)
+    st.code(json_str, language="json")
     
     # Download button
-    json_str = json.dumps(result, indent=2, ensure_ascii=False)
     st.download_button(
         label="📥 Download JSON",
         data=json_str,
         file_name=f"{result.get('doc_id', 'result')}.json",
-        mime="application/json"
+        mime="application/json",
+        use_container_width=True
     )
 
 
