@@ -1,0 +1,30 @@
+{
+  "doc_id": "172863544_2_pg20",
+  "fields": {
+    "dealer_name": "SABAR AGROTECH",
+    "model_name": "TAFE MF 241",
+    "horse_power": 42.0,
+    "asset_cost": 830000.0,
+    "signature": {
+      "present": true,
+      "bbox": [
+        950,
+        1400,
+        200,
+        100
+      ]
+    },
+    "stamp": {
+      "present": true,
+      "bbox": [
+        1200,
+        1600,
+        300,
+        200
+      ]
+    }
+  },
+  "confidence": 0.97,
+  "processing_time_sec": 28.9,
+  "cost_estimate_usd": 0.002
+}

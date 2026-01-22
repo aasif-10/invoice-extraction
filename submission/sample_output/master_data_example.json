@@ -1,0 +1,110 @@
+{
+  "dealers": [
+    "ABC Motors Pvt Ltd",
+    "XYZ Automobiles & Tractors",
+    "Global Machinery Co",
+    "Premium Equipment Solutions",
+    "Sunrise Dealers",
+    "Apex Automotive",
+    "Elite Motors India",
+    "Reliable Machinery Corp",
+    "Precision Equipment Ltd",
+    "Nationwide Dealers Network"
+  ],
+  "models": [
+    "MF 5710",
+    "JD 5050D",
+    "NH 3600",
+    "MT 7250",
+    "FT 4200",
+    "SP 6600",
+    "HT 5500",
+    "PT 8800",
+    "VT 9900",
+    "XT 3300"
+  ],
+  "horse_power_ranges": {
+    "MF 5710": {
+      "min": 70,
+      "max": 75
+    },
+    "JD 5050D": {
+      "min": 48,
+      "max": 52
+    },
+    "NH 3600": {
+      "min": 55,
+      "max": 60
+    },
+    "MT 7250": {
+      "min": 70,
+      "max": 75
+    },
+    "FT 4200": {
+      "min": 40,
+      "max": 45
+    },
+    "SP 6600": {
+      "min": 65,
+      "max": 68
+    },
+    "HT 5500": {
+      "min": 53,
+      "max": 57
+    },
+    "PT 8800": {
+      "min": 85,
+      "max": 90
+    },
+    "VT 9900": {
+      "min": 95,
+      "max": 102
+    },
+    "XT 3300": {
+      "min": 30,
+      "max": 35
+    }
+  },
+  "cost_ranges": {
+    "MF 5710": {
+      "min": 550000,
+      "max": 650000
+    },
+    "JD 5050D": {
+      "min": 400000,
+      "max": 500000
+    },
+    "NH 3600": {
+      "min": 480000,
+      "max": 580000
+    },
+    "MT 7250": {
+      "min": 600000,
+      "max": 700000
+    },
+    "FT 4200": {
+      "min": 350000,
+      "max": 450000
+    },
+    "SP 6600": {
+      "min": 520000,
+      "max": 620000
+    },
+    "HT 5500": {
+      "min": 450000,
+      "max": 550000
+    },
+    "PT 8800": {
+      "min": 750000,
+      "max": 850000
+    },
+    "VT 9900": {
+      "min": 900000,
+      "max": 1100000
+    },
+    "XT 3300": {
+      "min": 250000,
+      "max": 350000
+    }
+  }
+}

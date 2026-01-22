@@ -1,0 +1,68 @@
+# IntelliExtract AI - Requirements
+# Multi-modal invoice extraction system combining OCR, YOLO, and Vision LLM
+
+# ============================================================================
+# CORE DEPENDENCIES (Required)
+# ============================================================================
+
+# HTTP Requests (for Ollama Vision LLM API)
+requests>=2.31.0
+
+# Image Processing
+opencv-python>=4.7.0
+Pillow>=9.5.0
+numpy>=1.22.0
+
+# ============================================================================
+# OPTIONAL DEPENDENCIES (Backup/Enhancement Features)
+# ============================================================================
+
+# Deep Learning Backend
+torch>=2.0.0
+torchvision>=0.15.0
+
+# OCR Engines (Backup extraction methods)
+easyocr>=1.7.0
+pytesseract>=0.3.10
+
+# Object Detection (YOLO for signature/stamp detection)
+ultralytics>=8.0.0
+
+# NLP & Named Entity Recognition
+spacy>=3.5.0
+
+# Fuzzy String Matching
+rapidfuzz>=3.0.0
+
+# Progress Bars
+tqdm>=4.65.0
+
+# ============================================================================
+# BONUS FEATURES (Analytics & Web App)
+# ============================================================================
+
+# Data Analysis & Visualization
+matplotlib>=3.7.0
+seaborn>=0.12.0
+pandas>=2.0.0
+
+# Web Application (Optional Demo)
+streamlit>=1.28.0
+
+# ============================================================================
+# EXTERNAL DEPENDENCIES (Install separately)
+# ============================================================================
+
+# 1. Ollama (Required for Vision LLM)
+#    Download from: https://ollama.ai
+#    After installation, run:
+#      ollama pull llama3.2-vision
+
+# 2. Tesseract OCR (Optional - for OCR backup)
+#    Windows: Download from https://github.com/tesseract-ocr/tesseract/releases
+#    Linux: sudo apt-get install tesseract-ocr
+#    macOS: brew install tesseract
+
+# 3. spaCy Model (Optional - for NER)
+#    After installing spacy, run:
+#      python -m spacy download en_core_web_sm
